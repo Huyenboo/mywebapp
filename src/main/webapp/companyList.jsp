@@ -1,11 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="java.util.*, com.Employee" %>
+<%@ page import="java.util.*, com.company" %>
 
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>社員一覧（Employees List）</title>
+    <title>会社情報一覧</title>
     <style>
         body {
             font-family: "Segoe UI", sans-serif;
@@ -20,7 +20,7 @@
 
         table {
             border-collapse: collapse;
-            width: 90%;
+            width: 95%;
             margin: 20px auto;
             background-color: #fff;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
@@ -54,39 +54,38 @@
     </style>
 </head>
 <body>
-    <h2>社員一覧（Employees List）</h2>
+    <h2>会社情報一覧</h2>
 
     <%
-        List<Employee> list = (List<Employee>) request.getAttribute("employeeList");
+        List<company> companyList = (List<company>) session.getAttribute("companyList");
     %>
 
     <div class="summary">
-        社員数: <%= (list != null) ? list.size() : 0 %> 名
+        <%= (companyList != null) ? companyList.size() : 0 %> 社
     </div>
 
     <table>
         <tr>
-            <th>ID</th>
-            <th>氏名</th>
-            <th>性別</th>
-            <th>部署</th>
-            <th>入社日</th>
+            <th>会社名</th>
+            <th>住所</th>
+            <th>代表電話番号</th>
+            <th>担当者</th>
+            <th>担当者の携帯番号</th>
         </tr>
         <%
-            if (session != null) {
-            	List<Employee> empList = (List<Employee>) session.getAttribute("empList");
-            	for(Employee emp : empList){
+            if (companyList != null && !companyList.isEmpty()) {
+                for (company c : companyList) {
         %>
         <tr>
-            <td><%= emp.getId() %></td>
-            <td><%= emp.getName() %></td>
-            <td><%= emp.getGender() %></td>
-            <td><%= emp.getDepartment() %></td>
-            <td><%= emp.getHireDate() %></td>
+            <td><%= c.getCompanyName() %></td>
+            <td><%= c.getAddress() %></td>
+            <td><%= c.getPhone() %></td>
+            <td><%= c.getContactPerson() %></td>
+            <td><%= c.getContactMobile() %></td>
         </tr>
         <%
-                
-            	}} else {
+                }
+            } else {
         %>
         <tr>
             <td colspan="5" class="no-data">データがありません。</td>
